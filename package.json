@@ -1,0 +1,16 @@
+{
+  "name": "instaclone_node",
+  "version": "1.0.0",
+  "description": "file uploadeder for instaclone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "file",
+    "uploader",
+    "api"
+  ],
+  "author": "Vimal U",
+  "license": "ISC"
+}
