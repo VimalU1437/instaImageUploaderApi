@@ -6,7 +6,7 @@ const DataSchema = mongoose.Schema({
     likes:Number,
     description:String,
     PostImage:String,
-    date:Date,
+    date:String,
 })
 
 const DataModel = mongoose.model("posts",DataSchema);

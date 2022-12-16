@@ -1,53 +1,37 @@
 const express = require("express");
 const app  = express();
-const DataModel = require("./model/data");
-const cors = require("cors")
 
+const cors = require("cors")
+const formidable = require("express-formidable");
+
+require("dotenv").config();
+const cloudinary = require("cloudinary").v2;
+
+if (typeof (process.env.CLOUDINARY_URL) === 'undefined') {
+    console.warn('!! cloudinary config is undefined !!');
+    console.warn('export CLOUDINARY_URL or set dotenv file');
+  } else {
+    console.log('cloudinary config:');
+    console.log(cloudinary.config());
+  }
+  console.log('-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --');
+
+//middle 
 app.use(cors({
     origin:"*"
 }))
-app.use(express.json());
 
+app.use(formidable());
+// app.use(express.json());
 
-app.get("/posts",async(req,res)=>{
-  try{
-    const posts = await DataModel.find().sort({_id: -1});
-    res.json(posts);
-  } 
-  catch(e){
-    res.status(500).json({
-        status: "error",
-        message: e.message
-    });
-  } 
-})
+// app.use(express.urlencoded({extended:false}));
 
-app.post("/posts",async(req,res)=>{
- try{
-    let date = new Date();
-    const data = {
-        name:req.body.name, 
-        location:req.body.location,
-        likes:req.body.likes,
-        description:req.body.description,
-        PostImage:req.body.PostImage,
-        date:`${date.getFullYear()} : ${date.getMonth()} : ${date.getDate()}`,
-        
-    }
-    const insert = await DataModel.create(data);
+const datarouter = require("./routes/data");
 
-    res.status(201).json({
-        status : "success",
-        result:insert,
-    })
+app.use("/posts",datarouter);
 
- }
- catch(e){
-    res.status(500).json({
-        status:"failed",
-        message:e.message
-    })
- }
+app.use((req,res,next)=>{
+  res.sendStatus(404);
 })
 
 

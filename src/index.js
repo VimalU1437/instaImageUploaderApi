@@ -3,8 +3,9 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 
 dotenv.config();
+
 mongoose.set("strictQuery",true);
-mongoose.connect(process.env.DATABASE_URL,(err)=>{
+mongoose.connect(process.env.DATABASE_URL,{useNewUrlParser : true, useUnifiedTopology: true},(err)=>{
     console.log("connected to db");
     if(err){
         console.log(err);
